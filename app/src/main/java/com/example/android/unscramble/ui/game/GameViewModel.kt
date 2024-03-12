@@ -1,13 +1,14 @@
 package com.example.android.unscramble.ui.game
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class GameViewModel : ViewModel() {
 
-    private var wordsList: MutableList<String> = mutableListOf()
+    var wordsList: MutableList<String> = mutableListOf()
     private lateinit var currentWord: String
 
     private var _score = MutableLiveData(0)
@@ -65,6 +66,8 @@ class GameViewModel : ViewModel() {
         }
         return false
     }
+
+
 
     fun reinitializeData() {
         _score.value = 0
