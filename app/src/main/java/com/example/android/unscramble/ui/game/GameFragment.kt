@@ -11,9 +11,14 @@ import androidx.fragment.app.viewModels
 import com.example.android.unscramble.R
 import com.example.android.unscramble.databinding.GameFragmentBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+
+/**
+ * Fragment where the game is played, contains the game logic.
+ */
 class GameFragment : Fragment() {
 
     private val viewModel: GameViewModel by viewModels()
+
     private lateinit var binding: GameFragmentBinding
 
     override fun onCreateView(
@@ -21,6 +26,7 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
+
         return binding.root
     }
 
@@ -30,8 +36,10 @@ class GameFragment : Fragment() {
         binding.gameViewModel = viewModel
         binding.maxNoOfWords = MAX_NO_OF_WORDS
         binding.lifecycleOwner = viewLifecycleOwner
+
         binding.submit.setOnClickListener { onSubmitWord() }
         binding.skip.setOnClickListener { onSkipWord() }
+
     }
 
     private fun onSubmitWord() {
@@ -42,7 +50,8 @@ class GameFragment : Fragment() {
             if (!viewModel.nextWord()) {
                 showFinalScoreDialog()
             }
-        } else {
+        }
+        else {
             setErrorTextField(true)
         }
     }
@@ -52,10 +61,8 @@ class GameFragment : Fragment() {
             setErrorTextField(false)
         } else {
             showFinalScoreDialog()
-
         }
     }
-
 
     private fun showFinalScoreDialog() {
         MaterialAlertDialogBuilder(requireContext())
@@ -79,14 +86,14 @@ class GameFragment : Fragment() {
     private fun exitGame() {
         activity?.finish()
     }
+
     private fun setErrorTextField(error: Boolean) {
         if (error) {
-            binding.textField.isErrorEnabled = true
-            binding.textField.error = getString(R.string.try_again)
+//
         } else {
-            binding.textField.isErrorEnabled = false
-            binding.textInputEditText.text = null
+//
         }
     }
+
 
 }

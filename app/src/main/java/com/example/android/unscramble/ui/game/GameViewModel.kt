@@ -1,14 +1,13 @@
 package com.example.android.unscramble.ui.game
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class GameViewModel : ViewModel() {
 
-    var wordsList: MutableList<String> = mutableListOf()
+    private var wordsList: MutableList<String> = mutableListOf()
     private lateinit var currentWord: String
 
     private var _score = MutableLiveData(0)
@@ -26,17 +25,11 @@ class GameViewModel : ViewModel() {
 
     private fun getNextWord() {
         currentWord = allWordsList.random()
-        val tempWord = currentWord.toCharArray()
-        tempWord.shuffle()
-
-        while (String(tempWord).equals(currentWord, false)) {
-            tempWord.shuffle()
-        }
 
         if (wordsList.contains(currentWord)) {
             getNextWord()
         } else {
-            _currentScrambledWord.value = String(tempWord)
+            _currentScrambledWord.value = currentWord
             _currentWordCount.value = (_currentWordCount.value)?.inc()
             wordsList.add(currentWord)
         }
@@ -56,7 +49,7 @@ class GameViewModel : ViewModel() {
     }
 
     private fun increaseScore() {
-        _score.value = (_score.value)?.plus(SCORE_INCREASE)
+        _score.value = 0
     }
 
     fun isUserWordCorrect(playerWord: String): Boolean {
@@ -66,8 +59,6 @@ class GameViewModel : ViewModel() {
         }
         return false
     }
-
-
 
     fun reinitializeData() {
         _score.value = 0
